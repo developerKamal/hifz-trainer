@@ -10,7 +10,7 @@ interface Props {
 }
 
 const THRESHOLD = 15       // 0–255 average frequency bin
-const SPEAK_MS  = 3_000
+const SPEAK_MS  = 2_000
 const SILENCE_MS = 2_000
 
 export default function VoiceIndicator({ stepIndex, active, onComplete, onPermissionDenied }: Props) {
