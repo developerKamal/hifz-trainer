@@ -6,7 +6,7 @@ import {
   countAyaatCompleted, getElapsedMs, getRemainingMs,
   markComplete, pause, resume, stepLabel,
 } from '@/lib/sessionEngine'
-import { AYAAT } from '@/lib/ayaat'
+import { AYAAT, warshPageUrl } from '@/lib/ayaat'
 import { clearSession, saveSession } from '@/lib/storage'
 import VoiceIndicator from './VoiceIndicator'
 
@@ -69,12 +69,8 @@ export default function SessionScreen({ initialState, onDone }: Props) {
   const timeExpired = remaining === 0
   const step        = state.steps[state.currentStepIndex]
 
-  // Build arabic text display: for combined steps, show all ayaat separated by a blank line
-  const arabicText = step.ayahIndices
-    .map(i => AYAAT[i].text)
-    .join('\n\n')
-
   const ayahNumbers = step.ayahIndices.map(i => AYAAT[i].number)
+  const pages = Array.from(new Set(step.ayahIndices.map(i => AYAAT[i].page)))
   const ayahLabel   = ayahNumbers.length === 1
     ? `Ayah ${ayahNumbers[0]}`
     : `Ayaat ${ayahNumbers[0]}–${ayahNumbers[ayahNumbers.length - 1]}`
@@ -97,14 +93,16 @@ export default function SessionScreen({ initialState, onDone }: Props) {
         <p className="text-sm font-medium text-gray-500">{stepLabel(step, state.config)}</p>
       </div>
 
-      {/* Arabic text */}
-      <div className="flex-1 flex items-center justify-center px-6 py-4">
-        <p
-          className="font-quran text-right leading-[2.6] text-gray-900"
-          style={{ fontSize: 'clamp(1.5rem, 5vw, 2.2rem)', direction: 'rtl', whiteSpace: 'pre-line' }}
-        >
-          {arabicText}
-        </p>
+      {/* Warsh mushaf page image(s) */}
+      <div className="flex-1 overflow-y-auto px-3 py-2 flex flex-col gap-3">
+        {pages.map(page => (
+          <img
+            key={page}
+            src={warshPageUrl(page)}
+            alt={`Warsh pagina ${page}`}
+            className="w-full rounded-lg shadow-sm border border-gray-100"
+          />
+        ))}
       </div>
 
       {/* Input area */}

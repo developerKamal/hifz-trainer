@@ -47,7 +47,7 @@ export default function SetupScreen({ onStart, savedSession, onResume }: Props) 
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-1">
           <h1 className="text-2xl font-semibold text-gray-900">Hifz Trainer</h1>
-          <p className="text-sm text-gray-500">Soera Ar-Ra'd · ayaat 36–43</p>
+          <p className="text-sm text-gray-500">Soera Ar-Ra'd · ayaat 35–43</p>
         </div>
 
         {savedSession && (
